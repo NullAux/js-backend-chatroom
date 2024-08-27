@@ -6,3 +6,4 @@ Technologies used:
 -Nodemon (Dev) (for quickly updating express servers)
 -Insomnia (external) (for testing operations before UI is implemented)
 -Axios (Dev) (for sending requests between client/server)
+-Inquirer (for taking user input)
