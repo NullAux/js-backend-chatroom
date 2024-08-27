@@ -1,10 +1,11 @@
 const express = require("express")
 const app = express()
+const axios = require("axios")
 
 module.exports = app
 
-//Testing redirects
-app.get("/", (req,res,next) => {
-    //res.send("Test Received")
-    res.redirect("http://localhost:9090/")
+//Testing axios
+axios.get("http://localhost:9090/")
+.then((response) => {
+    console.log("Axios get ran, got", response)
 })
