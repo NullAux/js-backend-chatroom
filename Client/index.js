@@ -1,28 +1,31 @@
 const app = require("./app.js")
 const inquirer = require("inquirer")
 
-inquirer.prompt([{name: 'username', message: 'Please input username: '}])
+inquirer.prompt([{name: 'username', message: 'Please input username: '}, {name: 'port', message: 'Please input server port: '}])
 .then((answer) => {
     console.log(`Welcome user ${answer.username}`)
+    
+    //Add check port is valid
+    const address = answer.port
 
-    app.expressApp.listen(9091, async () => {
-        console.log("Client is listening on port 9091")
+    app.expressApp.listen(address, async () => {
+        console.log(`Client is listening on port ${address}`)
 
-        await app.connectUser(answer.username)
+        await app.connectUser(answer.username, address)
 
         //Loop of the app
         while (true){
-            await handleInput()
+            await handleInput(address)
         }
         })
 })
 
-async function handleInput() {        
+async function handleInput(address) {        
     const input = await inquirer.prompt([{name: "command", message:"->"}])
+    //Logic to determine action
     switch (input){
         default:
         //Send message
-        return app.sendMessage(input)
-        console.log("Returned from send input")
+        return app.sendMessage(input.command, address)
     }
 }

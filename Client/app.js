@@ -1,6 +1,8 @@
 const express = require("express")
 const app = express()
 const axios = require("axios")
+const bodyParser = require("body-parser")
+
 
 exports.expressApp = app
 
@@ -12,10 +14,16 @@ axios.get("http://localhost:9090/")
 })
 */
 
-exports.connectUser = (username) => {
-    return axios.put("http://localhost:9090/connectUser", {name: username})
+//Sending ---
+exports.connectUser = (username, port) => {
+    return axios.put("http://localhost:9090/connectUser", {name: username, port: port})
 }
 
-exports.sendMessage = (message) => {
-    return axios.put("http://localhost:9090/sendMessage", {msg: message})
+exports.sendMessage = (message, address) => {
+    return axios.put("http://localhost:9090/sendMessage", {msg: message, address: address})
 }
+
+//Receiving ---
+app.put("/receiveMessage", bodyParser.json(), (req,res,next) => {
+    console.log(req.body.msg)
+})
