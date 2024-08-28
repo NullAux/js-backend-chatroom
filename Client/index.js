@@ -1,15 +1,14 @@
 const app = require("./app.js")
 const inquirer = require("inquirer")
 
-inquirer.prompt([{name: 'username', message: 'Please input username: '}, {name: 'port', message: 'Please input server port: '}])
+inquirer.prompt([{name: 'username', message: 'Please input username: '}])
 .then((answer) => {
     console.log(`Welcome user ${answer.username}`)
     
-    //Add check port is valid
-    const address = answer.port
-
-    app.expressApp.listen(address, async () => {
-        console.log(`Client is listening on port ${address}`)
+    const server = app.expressApp.listen(0, async () => {
+        const address = server.address()
+        console.log(server.address())
+        console.log(`Client is listening on port ${address.port}`)
 
         await app.connectUser(answer.username, address)
 

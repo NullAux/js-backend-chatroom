@@ -15,8 +15,8 @@ axios.get("http://localhost:9090/")
 */
 
 //Sending ---
-exports.connectUser = (username, port) => {
-    return axios.put("http://localhost:9090/connectUser", {name: username, port: port})
+exports.connectUser = (username, address) => {
+    return axios.put("http://localhost:9090/connectUser", {name: username, address: address})
 }
 
 exports.sendMessage = (message, address) => {
