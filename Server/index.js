@@ -1,5 +1,8 @@
 const app = require("./app.js")
+const ip = require("ip")
 
-app.listen(9090, () => {
-    console.log("Server is listening on port 9090")
+console.log(ip.address())
+
+const server = app.listen(0, ip.address(), () => {
+    console.log(`Server is listening on port ${server.address().port} with IP ${ip.address()}`)
 })

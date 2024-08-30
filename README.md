@@ -8,3 +8,4 @@ Technologies used:
 -Insomnia (external) (for testing operations before UI is implemented)
 -Axios (Dev) (for sending requests between client/server)
 -Inquirer (for taking user input)
+-IP, for getting IPs to make LAN connections
