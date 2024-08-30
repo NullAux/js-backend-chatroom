@@ -1,5 +1,6 @@
 const app = require("./app.js")
 const inquirer = require("inquirer")
+const ip = require("ip")
 
 inquirer.prompt([{name: 'username', message: 'Please input username: '}, {name: 'serverIP', message: 'Please input sever address in form IP:Port'}])
 .then((answer) => {
@@ -10,8 +11,8 @@ inquirer.prompt([{name: 'username', message: 'Please input username: '}, {name: 
     app.setServerAddress(answer.serverIP)
     
     const server = app.expressApp.listen(0, async () => {
-        const clientAddress = server.address()
-        console.log(`Client is listening on port ${clientAddress.port}`)
+        const clientAddress = ip.address() + ":" + server.address().port
+        console.log(`Client is listening on ${clientAddress}`)
 
         await app.connectUser(answer.username, clientAddress)
 
