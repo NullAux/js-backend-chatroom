@@ -13,10 +13,28 @@ app.put("/connectUser", bodyParser.json(), (req,res,next) => {
 })
 
 app.put("/sendMessage", bodyParser.json(), (req,res,next) => {
-    console.log(req.body.address)
-    const sendingUser = data.connectedUsers.find((user) => {return `${user.address}` === `${req.body.address}`})//Add catch?
-    data.connectedUsers.forEach((user) => {
-        axios.put(`http://${user.address}/receiveMessage`, {msg: `${sendingUser.username}: ${req.body.msg}`})
+    //Find name of user message came from
+    const sendingUser = data.connectedUsers.find((user) => {return `${user.address}` === `${req.body.address}`})
+    if(sendingUser === undefined) {
+        console.log("Unable to identify user. No message sent.")
+        res.status(404).send()
+    }
+
+    //Try to send to each user
+    data.connectedUsers.forEach(async (user, index) => {
+        try {await axios.put(`http://${user.address}/receiveMessage`, {msg: `${sendingUser.username}: ${req.body.msg}`})}
+        catch{
+            console.log(`Unable to send message to user ${user.username}, removing from connected users.`)
+            data.connectedUsers.splice(index,1)
+            //^Check this doesn't mess up forEach loop.
+        }
     })
-    res.send()
+    try {res.send()}
+    catch {console.log("Threw error on res.send")}
+})
+
+//Can add disconnect option for users
+
+app.use((err, req, rest) => {
+    console.log("Error handler called")
 })

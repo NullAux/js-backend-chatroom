@@ -20,4 +20,5 @@ exports.sendMessage = (message, address) => {
 //Receiving ---
 app.put("/receiveMessage", bodyParser.json(), (req,res,next) => {
     console.log(req.body.msg)
+    res.send()
 })

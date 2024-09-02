@@ -2,23 +2,29 @@ const app = require("./app.js")
 const inquirer = require("inquirer")
 const ip = require("ip")
 
-inquirer.prompt([{name: 'username', message: 'Please input username: '}, {name: 'serverIP', message: 'Please input sever address in form IP:Port'}])
+inquirer.prompt([{name: 'username', message: 'Please input username: '}, {name: 'serverIP', message: 'Please input sever address in form IP:Port: '}])
 .then((answer) => {
     console.log(`Welcome user ${answer.username}`)
-
-    //Check given IP is valid and close/reset if not
-    console.log(`Connecting to server ${answer.serverIP}`)
-    app.setServerAddress(answer.serverIP)
     
+    //Set up client
     const server = app.expressApp.listen(0, async () => {
         const clientAddress = ip.address() + ":" + server.address().port
         console.log(`Client is listening on ${clientAddress}`)
 
-        await app.connectUser(answer.username, clientAddress)
+        //Attempt to connect
+        console.log(`Connecting to server ${answer.serverIP}`)
+        app.setServerAddress(answer.serverIP)
+        try {await app.connectUser(answer.username, clientAddress)}
+        catch {
+            //Failed to connect
+            console.log(`Unable to connect to server ${answer.serverIP}. Please relaunch and try again`)
+            server.close()
+        }
 
         //Loop of the app
         while (true){
-            await handleInput(clientAddress, app)
+            try {await handleInput(clientAddress, app)}
+            catch (err) {console.log("An error occured on the last input. Check the server is still online")}
         }
         })
 })
