@@ -1,4 +1,4 @@
-const app = require("./app.js")
+const app = require(`${__dirname}/app.js`)
 const inquirer = require("inquirer")
 const ip = require("ip")
 

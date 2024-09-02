@@ -2,7 +2,7 @@ const express = require("express")
 const app = express()
 const axios = require("axios")
 const bodyParser = require("body-parser")
-const data = require("./data.js")
+const data = require(`${__dirname}/data.js`)
 
 module.exports = app
 

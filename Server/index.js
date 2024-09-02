@@ -1,4 +1,4 @@
-const app = require("./app.js")
+const app = require(`${__dirname}/app.js`)
 const ip = require("ip")
 
 console.log(ip.address())
